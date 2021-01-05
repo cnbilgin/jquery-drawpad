@@ -145,7 +145,7 @@
 			resizeCanvas();
 
 			plugin.$canvas.on("mousedown", handleStartDraw);
-			plugin.$canvas.on("mouseup", handleStopDraw);
+			plugin.$canvas.on("mouseup mouseleave", handleStopDraw);
 			plugin.$canvas.on("mousemove", handleDraw);
 		};
 
