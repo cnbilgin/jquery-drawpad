@@ -165,6 +165,10 @@
 			);
 		};
 
+		plugin.resize = function () {
+			resizeCanvas();
+		}
+
 		plugin.init();
 	};
 
