@@ -1,3 +1,9 @@
+/* 
+	cnbilgin 
+	https://github.com/cnbilgin/jquery-drawpad
+	v 0.1
+*/
+
 (function ($) {
 	const pluginSuffix = "drawpad";
 	$.drawpad = function (element, options) {
