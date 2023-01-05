@@ -137,6 +137,47 @@
 
 			ctx.stroke();
 		};
+		
+		/* Handles for Mobile / Tablet */
+		const startDrawing = (event) => {
+			event.preventDefault();
+
+			drawing = true;
+			const touch = event.touches[0];
+			coordinate.x = touch.clientX;
+			coordinate.y = touch.clientY;
+		};
+
+		const continueDrawing = (event) => {
+			event.preventDefault();
+
+			if (!drawing) return;
+			const touch = event.touches[0];
+			let x = touch.clientX;
+			let y = touch.clientY;
+
+			if (drawingType === "pen") {
+				plugin.context.lineWidth = lineStyle.width;
+				plugin.context.strokeStyle = lineStyle.color;
+				plugin.context.lineJoin = lineStyle.type;
+				plugin.context.beginPath();
+				plugin.context.moveTo(coordinate.x, coordinate.y);
+				plugin.context.lineTo(x, y);
+				plugin.context.closePath();
+				plugin.context.stroke();
+			} else if (drawingType === "eraser") {
+				plugin.context.clearRect(x - plugin.settings.eraserSize / 2, y - plugin.settings.eraserSize / 2, plugin.settings.eraserSize, plugin.settings.eraserSize);
+			}
+
+			coordinate.x = x;
+			coordinate.y = y;
+		};
+
+		const stopDrawing = () => {
+			event.preventDefault();
+
+			drawing = false;
+		};
 
 		const initialize = () => {
 			$element.addClass(pluginSuffix);
@@ -147,6 +188,11 @@
 			plugin.$canvas.on("mousedown", handleStartDraw);
 			plugin.$canvas.on("mouseup mouseleave", handleStopDraw);
 			plugin.$canvas.on("mousemove", handleDraw);
+			
+			/* Handle Events Mobile / Tablet */
+			plugin.$canvas.on("touchstart", startDrawing);
+			plugin.$canvas.on("touchmove", continueDrawing);
+			plugin.$canvas.on("touchend", stopDrawing);
 		};
 
 		/* public methods */
